@@ -121,7 +121,6 @@ jobs:
                 #   which can cause compatibility issues. The compiler links against libc on the build system
                 #   but that may be newer than on the stacks we support.
                 export CGO_ENABLED=0
-                cat "${HOME}"/package.toml
 
                 if [[ "${INCLUDE_DEPENDENCIES}" == "true" ]]; then
                   create-package \
@@ -140,6 +139,7 @@ jobs:
                 PACKAGE_FILE=${SOURCE_PATH:-.}/package.toml
                 [[ -e ${PACKAGE_FILE} ]] && cp ${PACKAGE_FILE} "${HOME}"/package.toml
                 printf '[buildpack]\nuri = "%s"\n\n[platform]\nos = "%s"\n' "${HOME}"/buildpack "${OS}" >> "${HOME}"/package.toml
+                cat "${HOME}"/package.toml
               env:
                 INCLUDE_DEPENDENCIES: "false"
                 OS: linux
@@ -156,6 +156,9 @@ jobs:
                 PACKAGE_LIST=($PACKAGES)
                 # Extract first repo (Docker Hub) as the main to package & register
                 PACKAGE=${PACKAGE_LIST[0]}
+                
+                echo $PACKAGE
+                echo $VERSION
 
                 if [[ "${PUBLISH:-x}" == "true" ]]; then
                   pack buildpack package \
