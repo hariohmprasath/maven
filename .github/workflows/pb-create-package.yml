@@ -134,6 +134,7 @@ jobs:
                 #   which can cause compatibility issues. The compiler links against libc on the build system
                 #   but that may be newer than on the stacks we support.
                 export CGO_ENABLED=0
+                cat "${HOME}"/package.toml
 
                 if [[ "${INCLUDE_DEPENDENCIES}" == "true" ]]; then
                   create-package \
